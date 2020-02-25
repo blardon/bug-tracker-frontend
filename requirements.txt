@@ -1,0 +1,18 @@
+Requirements:
+
+1 - User Operations
+	1.1 Create User
+	1.2 Delete User
+
+2 - Project Operations
+	2.1 Create Project
+	2.2 Delete Project
+	2.3 Select Project
+	2.4 Add Users to Project
+	2.5 Issues
+		2.5.1 Create Issue
+		2.5.2 Edit Issue
+		2.5.3 Change Status of Issue
+		2.5.4 Remove Issue
+		2.5.5 Assign Issue
+	2.6 Edit Project
