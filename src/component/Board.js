@@ -75,10 +75,12 @@ const onDragEnd = (result, columns, setColumns) => {
 	}
 };
 
+
+// style={{ display: 'flex', justifyContent: 'center', height: '100%' }}
 function Board() {
 	const [ columns, setColumns ] = useState(columnsFromBackend);
 	return (
-		<div className="row" style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
+		<div className="d-flex" >
 			<DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
 				{Object.entries(columns).map(([ columnId, column ], index) => {
 					return <Column key={columnId} column={column} columnId={columnId} />;

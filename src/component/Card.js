@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
 function Card({ item, index }) {
+	const [ isLoading, setIsLoading ] = useState(false);
+
 	return (
 		<Draggable key={item.id} draggableId={item.id} index={index}>
 			{(provided, snapshot) => {
