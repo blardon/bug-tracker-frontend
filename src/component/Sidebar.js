@@ -13,7 +13,7 @@ function Sidebar() {
 				</ul>
 				<h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 					<span>
-						Projects <span class="badge badge-primary pl-1 pr-1 ml-1">3</span>
+						Projects <span className="badge badge-primary pl-1 pr-1 ml-1">3</span>
 					</span>
 				</h6>
 				<a className="nav-link" href="/">
