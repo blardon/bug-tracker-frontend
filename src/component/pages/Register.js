@@ -9,15 +9,7 @@ function Register(props) {
 		password: ''
 	});
 
-	const [ createUser, { loading } ] = useMutation(REGISTER_USER, {
-		update(proxy, result) {
-			props.history.push('/');
-		},
-		onError(err) {
-			setError(err.graphQLErrors[0].message);
-		},
-		variables: values
-	});
+	const [ createUser, { loading } ] = useMutation(REGISTER_USER);
 
 	const onChange = (event) => {
 		event.preventDefault();
@@ -26,66 +18,77 @@ function Register(props) {
 		setValues(newState);
 	};
 
-	const onSubmit = (event) => {
+	const onSubmit = async (event) => {
 		event.preventDefault();
-		createUser();
+
+		try {
+			const reponse = await createUser({ variables: values });
+			console.log(reponse);
+			props.history.push('/');
+		} catch (err) {
+			console.log(err);
+			if (err.graphQLErrors.length > 0) {
+				setError(err.graphQLErrors[0].message);
+				return;
+			}
+			setError('Server unreachable.');
+		}
 	};
 
 	if (loading) {
 		return 'LOADING';
-	} else {
-		return (
-			<div className="row justify-content-center text-center">
-				<div className="col-4">
-					<form onSubmit={onSubmit} className="form-signin mt-4">
-						<img
-							className="mb-4"
-							src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
-							alt=""
-							width="72"
-							height="72"
-						/>
-						<h1 className="h3 mb-3 font-weight-normal">Please register</h1>
-						<label for="inputUsername" className="sr-only">
-							Username
-						</label>
-						<input
-							value={values.username}
-							onChange={onChange}
-							type="username"
-							name="username"
-							id="inputUsername"
-							className="form-control"
-							placeholder="Username"
-							required
-							autofocus
-						/>
-						<label for="inputPassword" className="sr-only">
-							Password
-						</label>
-						<input
-							value={values.password}
-							onChange={onChange}
-							type="password"
-							name="password"
-							id="inputPassword"
-							className="form-control"
-							placeholder="Password"
-							required
-						/>
-						{error !== '' && (
-							<div className="alert alert-danger" role="alert">
-								{error}
-							</div>
-						)}
-						<button className="mt-4 btn btn-lg btn-primary btn-block" type="submit">
-							Register
-						</button>
-					</form>
-				</div>
-			</div>
-		);
 	}
+	return (
+		<div className="row justify-content-center text-center">
+			<div className="col-4">
+				<form onSubmit={onSubmit} className="form-signin mt-4">
+					<img
+						className="mb-4"
+						src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
+						alt=""
+						width="72"
+						height="72"
+					/>
+					<h1 className="h3 mb-3 font-weight-normal">Please register</h1>
+					<label for="inputUsername" className="sr-only">
+						Username
+					</label>
+					<input
+						value={values.username}
+						onChange={onChange}
+						type="username"
+						name="username"
+						id="inputUsername"
+						className="form-control"
+						placeholder="Username"
+						required
+						autofocus
+					/>
+					<label for="inputPassword" className="sr-only">
+						Password
+					</label>
+					<input
+						value={values.password}
+						onChange={onChange}
+						type="password"
+						name="password"
+						id="inputPassword"
+						className="form-control"
+						placeholder="Password"
+						required
+					/>
+					{error !== '' && (
+						<div className="alert alert-danger" role="alert">
+							{error}
+						</div>
+					)}
+					<button className="mt-4 btn btn-lg btn-primary btn-block" type="submit">
+						Register
+					</button>
+				</form>
+			</div>
+		</div>
+	);
 }
 
 export default Register;
