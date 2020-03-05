@@ -16,12 +16,16 @@ export const GET_PROJECT_BY_ID = gql`
 			id
 			title
 			desc
-			issues {
+			categories {
 				id
 				title
-				desc
 				type
-				priority
+				issues {
+					id
+					title
+					desc
+					priority
+				}
 			}
 			types
 			createdAt

@@ -2,11 +2,11 @@ import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import Card from './Card';
 
-function Column({ projectId, column, columnId }) {
+function Column({ projectId, category, categoryId }) {
 	return (
-		<div className="col my-3 m-2 p-3 bg-white rounded box-shadow" key={columnId}>
-			<h6 className="border-bottom border-gray pb-2 mb-1">{column.name}</h6>
-			<Droppable droppableId={columnId} key={columnId}>
+		<div className="col my-3 m-2 p-3 bg-white rounded box-shadow" key={categoryId}>
+			<h6 className="border-bottom border-gray pb-2 mb-1">{category.title}</h6>
+			<Droppable droppableId={categoryId} key={categoryId}>
 				{(provided, snapshot) => {
 					return (
 						<div
@@ -19,7 +19,7 @@ function Column({ projectId, column, columnId }) {
 								minHeight: '90%'
 							}}
 						>
-							{column.issues.map((item, index) => {
+							{category.issues.map((item, index) => {
 								return <Card key={index} item={item} index={index} />;
 							})}
 							{provided.placeholder}
@@ -29,8 +29,8 @@ function Column({ projectId, column, columnId }) {
 			</Droppable>
 			<button
 				type="button"
-				class="btn btn-secondary btn-sm btn-block mt-2"
-				onClick={() => console.log(column, projectId)}
+				className="btn btn-secondary btn-sm btn-block mt-2"
+				onClick={() => console.log(category, projectId)}
 			>
 				Add new issue
 			</button>
