@@ -2,21 +2,24 @@ import React, { useReducer, createContext } from 'react';
 
 const AuthContext = createContext({
 	user: null,
-	login: (userData) => {},
+	token: null,
+	setUser: (userData) => {},
 	logout: () => {}
 });
 
 function authReducer(state, action) {
 	switch (action.type) {
-		case 'LOGIN':
+		case 'SET_USER':
 			return {
 				...state,
-				user: action.payload
+				user: action.payload.user,
+				token: action.payload.token
 			};
 		case 'LOGOUT':
 			return {
 				...state,
-				user: null
+				user: null,
+				token: null
 			};
 		default:
 			return state;
@@ -26,9 +29,9 @@ function authReducer(state, action) {
 function AuthProvider(props) {
 	const [ state, dispatch ] = useReducer(authReducer, { user: null });
 
-	const login = (userData) => {
+	const setUser = (userData) => {
 		dispatch({
-			type: 'LOGIN',
+			type: 'SET_USER',
 			payload: userData
 		});
 	};
@@ -39,7 +42,7 @@ function AuthProvider(props) {
 		});
 	};
 
-	return <AuthContext.Provider value={{ user: state.user, login, logout }} {...props} />;
+	return <AuthContext.Provider value={{ user: state.user, setUser, logout }} {...props} />;
 }
 
 export { AuthContext, AuthProvider };

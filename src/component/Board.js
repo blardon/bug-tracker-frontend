@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import { DragDropContext } from 'react-beautiful-dnd';
 import uuid from 'uuid/v4';
 import Column from './Column';
+
+import { AuthContext } from '../context/Auth';
+import { GET_PROJECT_BY_ID } from '../queries/Project';
 
 const issuesFromBackend = [
 	{
@@ -75,15 +79,42 @@ const onDragEnd = (result, columns, setColumns) => {
 	}
 };
 
+function Board(props) {
+	const projectId = props.match.params.projectId;
+	const { user } = useContext(AuthContext);
+	const [ columns, setColumns ] = useState({});
 
-// style={{ display: 'flex', justifyContent: 'center', height: '100%' }}
-function Board() {
-	const [ columns, setColumns ] = useState(columnsFromBackend);
+	const { data: project, loading } = useQuery(GET_PROJECT_BY_ID, { variables: { id: projectId } });
+
+	useEffect(
+		() => {
+			if (project) {
+				const columnsFromBackend = {};
+				project.project.types.map((type) => {
+					columnsFromBackend[uuid()] = {
+						name: type,
+						category: type,
+						issues: project.project.issues.filter((issue) => issue.type === type)
+					};
+				});
+				setColumns(columnsFromBackend);
+			}
+		},
+		[ project ]
+	);
+
+	//if (!user){
+	//	return <div>not logged in</div>
+	//}
+	if (!project || loading) {
+		return <div>Loading project...</div>;
+	}
+
 	return (
-		<div className="d-flex" >
+		<div className="d-flex">
 			<DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
 				{Object.entries(columns).map(([ columnId, column ], index) => {
-					return <Column key={columnId} column={column} columnId={columnId} />;
+					return <Column key={columnId} projectId={projectId} column={column} columnId={columnId} />;
 				})}
 			</DragDropContext>
 		</div>

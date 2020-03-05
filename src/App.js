@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './bootstrap.min.css';
 import './App.css';
 import Header from './component/Header';
 import Sidebar from './component/Sidebar';
-
 import Board from './component/Board';
+
+import Home from './component/pages/Home';
 import Login from './component/pages/Login';
 import Register from './component/pages/Register';
+import CreateProject from './component/pages/CreateProject';
 
 import { AuthProvider } from './context/Auth';
 
@@ -17,7 +19,6 @@ function App() {
 	useEffect(() => {
 		fetch('http://localhost:4000/refresh_token', { method: 'POST', credentials: 'include' }).then(async (res) => {
 			const data = await res.json();
-			console.log(data);
 			setLoading(false);
 		});
 	}, []);
@@ -29,21 +30,23 @@ function App() {
 	return (
 		<AuthProvider>
 			<div className="App bg-light">
-				<Header />
-				<div className="container-fluid">
-					<div className="row">
-						<Sidebar />
-						<main className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-							<Router>
+				<Router>
+					<Header />
+					<div className="container-fluid">
+						<div className="row">
+							<Sidebar />
+							<main className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 								<Switch>
-									<Route exact path="/" component={Board} />
+									<Route exact path="/" component={Home} />
 									<Route exact path="/login" component={Login} />
 									<Route exact path="/register" component={Register} />
+									<Route exact path="/createproject" component={CreateProject} />
+									<Route exact path="/projects/:projectId" component={Board} />
 								</Switch>
-							</Router>
-						</main>
+							</main>
+						</div>
 					</div>
-				</div>
+				</Router>
 			</div>
 		</AuthProvider>
 	);

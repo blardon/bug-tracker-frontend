@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 import { REGISTER_USER } from '../../queries/User';
 function Register(props) {
@@ -82,6 +83,9 @@ function Register(props) {
 							{error}
 						</div>
 					)}
+					<div>
+						<Link to="/login">Already have an Account? Login</Link>
+					</div>
 					<button className="mt-4 btn btn-lg btn-primary btn-block" type="submit">
 						Register
 					</button>

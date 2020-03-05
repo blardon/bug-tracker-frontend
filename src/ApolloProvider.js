@@ -3,15 +3,18 @@ import App from './App';
 import { ApolloClient, ApolloLink, InMemoryCache, HttpLink } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 
+import { getAccessToken } from './accessToken';
+
 const httpLink = new HttpLink({
-	uri: 'http://localhost:4000/graphql'
+	uri: 'http://localhost:4000/graphql',
+	credentials: 'include'
 });
 
 const authLink = new ApolloLink((operation, forward) => {
-	const token = '';
+	const token = getAccessToken();
 	operation.setContext({
 		headers: {
-			authorization: 'bearer'
+			authorization: `bearer ${token}`
 		}
 	});
 	return forward(operation);
