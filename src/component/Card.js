@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { Draggable } from 'react-beautiful-dnd';
 import { UPDATE_ISSUE_PRIORITY } from '../queries/Issue';
+import { usePrevious } from '../util/customHooks';
 
 function Card({ item, index }) {
+	const prevIssue = usePrevious(item);
+
 	const [ updatePriority, { updatePriorityLoading } ] = useMutation(UPDATE_ISSUE_PRIORITY);
 
 	useEffect(
@@ -17,7 +20,10 @@ function Card({ item, index }) {
 					console.log(err);
 				}
 			}
-			if (item.priority !== index) {
+			if (prevIssue) {
+				const oldPriority = prevIssue.priority;
+				const newPriority = item.priority;
+				console.log(oldPriority, newPriority);
 				saveData();
 			}
 		},
