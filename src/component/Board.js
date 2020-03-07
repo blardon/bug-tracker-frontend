@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { DragDropContext } from 'react-beautiful-dnd';
 import uuid from 'uuid/v4';
 import Column from './Column';
@@ -34,7 +34,6 @@ const onDragEnd = (result, categories, setCategories) => {
 		// SAME COLUMNS
 	} else {
 		const category = categories[source.droppableId];
-		console.log(category);
 		const copiedIssues = [ ...category.issues ];
 		const [ removed ] = copiedIssues.splice(source.index, 1);
 		copiedIssues.splice(destination.index, 0, removed);

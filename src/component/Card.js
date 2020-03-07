@@ -1,8 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useMutation } from '@apollo/react-hooks';
 import { Draggable } from 'react-beautiful-dnd';
+import { UPDATE_ISSUE_PRIORITY } from '../queries/Issue';
 
 function Card({ item, index }) {
-	const [ isLoading, setIsLoading ] = useState(false);
+	const [ updatePriority, { updatePriorityLoading } ] = useMutation(UPDATE_ISSUE_PRIORITY);
+
+	useEffect(
+		() => {
+			async function saveData() {
+				try {
+					const response = await updatePriority({ variables: { issueId: item.id, newPriority: index } });
+					console.log(response);
+					//TODO: SAVE NEW PRIORITY TO CHACHE
+				} catch (err) {
+					console.log(err);
+				}
+			}
+			if (item.priority !== index) {
+				saveData();
+			}
+		},
+		[ item ]
+	);
 
 	return (
 		<Draggable key={item.id} draggableId={item.id} index={index}>
