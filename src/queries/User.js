@@ -37,7 +37,6 @@ export const LOGIN_USER = gql`
 					id
 					title
 					desc
-					types
 				}
 			}
 			token

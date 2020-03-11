@@ -56,20 +56,12 @@ function Board(props) {
 
 	useEffect(
 		() => {
-			// TODO: Save category change
-		},
-		[ categories ]
-	);
-
-	useEffect(
-		() => {
 			if (project) {
 				const categoriesFromBackend = {};
 				project.project.categories.map((category) => {
-					categoriesFromBackend[uuid()] = {
+					categoriesFromBackend[category.id] = {
 						id: category.id,
 						title: category.title,
-						type: category.type,
 						issues: category.issues
 					};
 				});

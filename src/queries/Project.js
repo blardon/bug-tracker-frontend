@@ -19,7 +19,6 @@ export const GET_PROJECT_BY_ID = gql`
 			categories {
 				id
 				title
-				type
 				issues {
 					id
 					title
@@ -27,7 +26,11 @@ export const GET_PROJECT_BY_ID = gql`
 					priority
 				}
 			}
-			types
+			sprints {
+				id
+				title
+				desc
+			}
 			createdAt
 		}
 	}

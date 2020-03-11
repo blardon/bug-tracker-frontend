@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import Card from './Card';
 
 function Column({ projectId, category, categoryId }) {
+
 	return (
 		<div className="col my-3 m-2 p-3 bg-white rounded box-shadow" key={categoryId}>
 			<h6 className="border-bottom border-gray pb-2 mb-1">{category.title}</h6>

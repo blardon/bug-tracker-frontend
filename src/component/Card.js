@@ -2,29 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { Draggable } from 'react-beautiful-dnd';
 import { UPDATE_ISSUE_PRIORITY } from '../queries/Issue';
-import { usePrevious } from '../util/customHooks';
 
 function Card({ item, index }) {
-	const prevIssue = usePrevious(item);
-
-	const [ updatePriority, { updatePriorityLoading } ] = useMutation(UPDATE_ISSUE_PRIORITY);
+	const [ updatePriority, { updatePriorityPending } ] = useMutation(UPDATE_ISSUE_PRIORITY);
 
 	useEffect(
 		() => {
 			async function saveData() {
 				try {
+					console.log('SAVING PRIORITY');
 					const response = await updatePriority({ variables: { issueId: item.id, newPriority: index } });
 					console.log(response);
-					//TODO: SAVE NEW PRIORITY TO CHACHE
+					//TODO: SAVE NEW PRIORITY TO CACHE
 				} catch (err) {
 					console.log(err);
 				}
 			}
-			if (prevIssue) {
-				const oldPriority = prevIssue.priority;
-				const newPriority = item.priority;
-				console.log(oldPriority, newPriority);
-				saveData();
+			if (item.priority !== index) {
+				//saveData();
 			}
 		},
 		[ item ]

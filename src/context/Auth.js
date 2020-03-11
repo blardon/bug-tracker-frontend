@@ -2,7 +2,6 @@ import React, { useReducer, createContext } from 'react';
 
 const AuthContext = createContext({
 	user: null,
-	token: null,
 	setUser: (userData) => {},
 	logout: () => {}
 });
@@ -12,14 +11,12 @@ function authReducer(state, action) {
 		case 'SET_USER':
 			return {
 				...state,
-				user: action.payload.user,
-				token: action.payload.token
+				user: action.payload.user
 			};
 		case 'LOGOUT':
 			return {
 				...state,
-				user: null,
-				token: null
+				user: null
 			};
 		default:
 			return state;
